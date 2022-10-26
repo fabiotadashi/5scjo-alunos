@@ -22,8 +22,14 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<StudentDTO> list(String nome) {
-        return studentRepository.findAll()
+    public List<StudentDTO> list(String name) {
+        List<StudentEntity> entityList;
+        if(name == null){
+            entityList = studentRepository.findAll();
+        }else {
+            entityList = studentRepository.findAllByNameContaining(name);
+        }
+        return entityList
                 .stream()
                 .map(entity -> {
                     StudentDTO dto = new StudentDTO();
